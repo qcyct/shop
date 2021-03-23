@@ -1,0 +1,89 @@
+<link rel="stylesheet" href="../../assets/libs/layui/css/layui.css" media="all">
+<form class="layui-form" lay-filter="example">
+    <div class="layui-form-item" style="margin-top: 20px">
+        <label class="layui-form-label">用户编号:</label>
+        <div class="layui-input-block" style="margin-right: 20px">
+            <input disabled type="text" name="userId" disabled="true" autocomplete="off" placeholder="" id="userId"
+                class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item" style="margin-top: 20px">
+        <label class="layui-form-label">用户名称:</label>
+        <div class="layui-input-block" style="margin-right: 20px">
+            <input disabled type="text" name="userName" lay-verify="title" autocomplete="off" placeholder=""
+                disabled="true" id="userName" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户头像:</label>
+        <div class="layui-input-block" style="margin-right: 20px">
+            <img name="userUrl" height="50" width="50" id="userUrl" class="userUrl" />
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户性别:</label>
+        <div class="layui-input-block" style="margin-right: 20px">
+            <input disabled type="text" name="userSex" lay-verify="required" lay-reqtext="用户性别不能为空？
+                    " placeholder="" disabled="true" id="userSex" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户金钱:</label>
+        <div class="layui-input-block" style="margin-right: 20px">
+            <input disabled type="text" name="beginMoney" lay-verify="required" lay-reqtext="用户性别不能为空？
+                    " placeholder="" disabled="true" id="beginMoney" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <!-- <div class="layui-form-item">
+            <label class="layui-form-label">使用状态:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <input disabled type="text" name="salerIsusing" lay-verify="required" lay-reqtext="用户联系方式不能为空？
+                    " placeholder="" disabled="true" id="salerIsusing" autocomplete="off" class="layui-input">
+            </div>
+        </div> -->
+
+</form>
+
+
+<script src="../../assets/libs/layui/layui.js" charset="utf-8"></script>
+<script src="../js/util.js" charset="utf-8"></script>
+<script>
+
+    layui.config({
+        base: '/module/'
+    }).use(['jquery', 'layer', 'table', 'form', 'config'], function () {
+
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var form = layui.form;
+        var config = layui.config;
+        var req = GetRequest();
+
+        var no = req['editNo'];//获取请求的url参数editNo的值
+        //获取当前编辑的数据
+        $.ajax({
+            url: config.base_server + 'GetUsersById?editNo=' + no,
+            dataType: 'json',
+            type: 'get',
+            success: function (data) {
+
+                data = data.data;
+                $('#userId').val(data[0].userId);
+                $('#userName').val(data[0].userName);
+                $('#userUrl').attr('src', data[0].userUrl ? data[0].userUrl : '');
+                $('#userSex').val(data[0].userSex);
+                $('#beginMoney').val(data[0].beginMoney);
+            }
+        })
+
+        $('.userUrl').on('error', function () {
+            this.style.display = "none";
+        })
+
+
+    });
+</script>

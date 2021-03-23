@@ -1,0 +1,120 @@
+<div>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>商品分类</legend>
+    </fieldset>
+    <div id="categoryType" class="demo-tree demo-tree-box card" style=" overflow: hidden;"></div>
+    <div class="layui-form-item" style="text-align: center;">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" id="categoryAdd">添加</button>
+            <!-- <button type="button" class="layui-btn" id="categoryUpdate">修改</button> -->
+            <button type="button" class="layui-btn" id="categoryDel">删除</button>
+        </div>
+    </div>
+</div>
+<style>
+    div.layui-tree-entry {
+        height: 50px;
+    }
+
+    span.layui-tree-txt {
+        font-size: 20px;
+    }
+
+    .card {
+        padding-left: 50px;
+        min-height: 63vh;
+        padding-top: 50px;
+        ;
+    }
+
+    i.layui-icon {
+        font-size: 20px;
+    }
+
+    div.layui-tab-content {
+        padding: 0px;
+    }
+</style>
+<script>
+    layui.use(['table', 'util', 'config', 'tree', 'config'], function () {
+        var table = layui.table;
+        var config = layui.config;
+        var util = layui.util;
+        var tree = layui.tree;
+        var config = layui.config;
+        $.ajax({
+            url: config.base_server + 'GetCategory',
+            dataType: 'json',
+            type: 'get',
+            success: function (data) {
+                data = data.data;
+                tree.render({
+                    elem: '#categoryType'
+                    , data: data
+                    , showLine: false
+                });
+
+            }
+        })
+
+
+        $('#categoryAdd').on('click', function () {
+            var fu = layer.open({
+                type: 2,
+                title: "添加商品分类",
+                area: ['500px', '400px'],
+                fix: false,
+                content: 'components/system/categoryAdd.html',
+                maxmin: true,
+                end: function () {
+                    $.ajax({
+                        url: config.base_server + 'GetCategory',
+                        dataType: 'json',
+                        type: 'get',
+                        success: function (data) {
+                            data = data.data;
+                            tree.render({
+                                elem: '#categoryType'
+                                , data: data
+                                , showLine: false
+                            });
+
+                        }
+                    })
+
+                }
+            })
+        })
+        // $('#categoryUpdate').on('click', function () {
+
+        // })
+        $('#categoryDel').on('click', function () {
+            var fu = layer.open({
+                type: 2,
+                title: "删除商品类型",
+                area: ['500px', '300px'],
+                fix: false,
+                content: 'components/system/categorDelete.html',
+                maxmin: true,
+                end: function () {
+                    $.ajax({
+                        url: config.base_server + 'GetCategory',
+                        dataType: 'json',
+                        type: 'get',
+                        success: function (data) {
+                            data = data.data;
+                            tree.render({
+                                elem: '#categoryType'
+                                , data: data
+                                , showLine: false
+                            });
+
+                        }
+                    })
+
+                }
+            })
+        })
+    });
+
+</script>

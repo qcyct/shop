@@ -1,0 +1,33 @@
+
+.notice {
+	padding: 6rpx 26rpx 6rpx 60rpx;
+	position: relative;
+	overflow: hidden;
+	background-color: #fff;
+	color: #333;
+}
+.notice-icon {
+	display: inline-block;
+	height: 40rpx;
+	position: absolute;
+	top: 59%;
+	left: 26rpx;
+	-webkit-transform: translateY(-50%);
+	        transform: translateY(-50%);
+	overflow: hidden;
+}
+.news-icon {
+	width: 30rpx;
+	height: 30rpx;
+	float: left;
+}
+.notice-c {
+	margin-left: 10rpx;
+	height: 50rpx;
+	line-height: 50rpx;
+	width: 630rpx;
+	display: inline-block;
+	font-size: 28rpx;
+	float: left;
+}
+

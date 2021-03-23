@@ -1,0 +1,17 @@
+
+.search-input-p {
+	color: #888;
+}
+.square {
+	border-radius: 0;
+}
+.radius {
+	border-radius: 12rpx;
+}
+.search-fixed {
+	position: fixed;
+	top: 0;
+	-webkit-transition: all .5s;
+	transition: all .5s;
+}
+

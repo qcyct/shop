@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "首页",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "search": "/components/search/search",
+    "copyright": "/components/copyright/copyright",
+    "img-slide": "/components/imgSlide/imgSlide",
+    "notice": "/components/notice/notice",
+    "nav-bar": "/components/navBar/navBar",
+    "coupon": "/components/coupon/coupon",
+    "img-wrapper": "/components/imgWrapper/imgWrapper",
+    "goods": "/components/goods/goods"
+  }
+}

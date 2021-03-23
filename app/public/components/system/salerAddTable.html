@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>表格Demo</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../assets/libs/layui/css/layui.css" media="all">
+</head>
+
+<body>
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>添加商户</legend>
+    </fieldset>
+
+
+    <form class="layui-form" action="" lay-filter="example" enctype="multipart/form-data" method="post">
+        <div class="layui-form-item">
+            <label class="layui-form-label">商家名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="salerName" id="salerName" lay-verify="required" lay-reqtext="商家名称必填项，岂能为空？"
+                    placeholder="请输入商家名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系方式</label>
+            <div class="layui-input-block">
+                <input type="tel" name="salerPhone" id="salerPhone" lay-verify="required" autocomplete="off"
+                    lay-reqtext="岂能为空？" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">登录密码</label>
+            <div class="layui-input-block">
+                <input type="tel" name="salerPass" id="salerPass" lay-verify="required" autocomplete="off"
+                    lay-reqtext="岂能为空？" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-top: 20px">
+            <label class="layui-form-label">商家头像:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <div class="layui-upload-list" id="salerBtnDel"
+                    style="height: 100px; width: 100px;border: 1px solid #cccccc;">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商家地址</label>
+            <div class="layui-input-block">
+                <input type="text" name="salerAddress" id="salerAddress" lay-verify="adress" autocomplete="off"
+                    class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">入驻时间:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <input class="layui-input" id="salerTime" name="salerTime" />
+            </div>
+        </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">商家状态</label>
+            <div class="layui-input-inline">
+                <select name="salerIsusing" id='salerIsusing' lay-filter="salerIsusing">
+                </select>
+            </div>
+        </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" id="submit" lay-submit="" lay-filter="demo1">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+
+
+    <script src="../../assets/libs/layui/layui.js" charset="utf-8"></script>
+
+    <script>
+
+        layui.config({
+            base: '/module/'
+        }).use(['jquery', 'layer', 'table', 'form', 'config', 'laydate', 'upload'], function () {
+
+            var $ = layui.jquery;
+            var layer = layui.layer;
+            var form = layui.form;
+            var config = layui.config;
+            var laydate = layui.laydate;
+            var upload = layui.upload;
+            var files = null;
+            //页面加载时商家使用状态select下拉框的内容
+            $.ajax({
+                url: config.base_server + 'GetSalerIsusing',
+                dataType: 'json',
+                type: 'get',
+                async: false,
+                success: function (data) {
+                    data = data.data;
+                    $.each(data, function (index, item) {
+                        $('#salerIsusing').append
+                            (new Option(item.salerIsusing));// 下拉菜单里添加元素
+                    });
+                    form.render("select");
+
+                }
+
+            })
+            laydate.render({
+                elem: '#salerTime',
+                value: new Date()
+                , type: 'datetime'
+                , trigger: 'click'
+            });
+            upload.render({
+                elem: '#salerBtnDel'
+                , auto: false
+                , choose: (obj) => {
+                    obj.preview((index, file, result) => {
+                        let imgUrl = result;
+                        files = file;
+                        $('#salerBtnDel').html('<div class="imgBox " ><img src="' + result + '" alt="' + file.name + '" class="layui-upload-img" width="100" height="100"><a class="remove_' + index + ' imgitem  layui-btn layui-btn-xs layui-btn-danger demo-delete">取消</a></div>')
+                        $('.remove_' + index).bind('click', function (e) {
+                            e.stopPropagation()
+                            files = null;
+                            $(this).parent().remove();
+                        })
+                    });
+                }
+            });
+                form.on('submit(demo1)', function (info) {
+                    var data = form.val('example');
+                    var salerName = data.salerName;
+                    var salerPhone = data.salerPhone;
+                    var salerAddress = data.salerAddress;
+                    var salerTime = data.salerTime;
+                    var salerIsusing = data.salerIsusing;
+                    var salerPass = data.salerPass;
+                    //用户名重复性的验证  ajax  同步
+                    var formData = new FormData();
+                    formData.append('salerName', salerName);
+                    formData.append('salerPhone', salerPhone);
+                    formData.append('salerAddress', salerAddress);
+                    formData.append('salerIsusing', salerIsusing);
+                    formData.append('salerTime', salerTime);
+                    formData.append('salerPass', salerPass);
+                    if (files) {
+                        formData.append('salerUrl', files)
+                    } else {
+                        layer.msg('用户头像不能为空', { icon: 5 });
+                        return false;
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: config.base_server + "addSaler",
+                        async: false,
+                        data: formData,
+                        async: false,
+                        processData: false,   //  告诉jquery不要处理发送的数据
+                        contentType: false,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.code == 1) {
+                                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                                console.log("可以关闭嘛？");
+                                alert("添加成功");
+                                parent.layer.close(index); //再执行关闭   
+                            }
+                        }
+                    });
+                });
+
+
+
+        });
+    </script>
+
+
+</body>

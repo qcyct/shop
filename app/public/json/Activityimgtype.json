@@ -1,0 +1,14 @@
+[
+    {
+        "typdid": 1,
+        "typeTitle": "主页轮播图"
+    },
+    {
+        "typdid": 2,
+        "typeTitle": "今日秒杀轮播图"
+    },
+    {
+        "typdid": 3,
+        "typeTitle": "今日热销轮播图"
+    }
+]

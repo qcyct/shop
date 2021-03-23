@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>修改数据Demo</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../assets/libs/layui/css/layui.css" media="all">
+</head>
+
+<body>
+
+    <form class="layui-form" lay-filter="example">
+
+        <div class="layui-form-item" style="margin-top: 20px">
+            <label class="layui-form-label">商家编号:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <input type="text" disabled="true" name="salerId" autocomplete="off" placeholder="" id="salerId"
+                    class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item" style="margin-top: 20px">
+            <label class="layui-form-label">商家名称:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <input type="text" name="salerName" lay-verify="title" autocomplete="off" placeholder="" id="salerName"
+                    class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系方式:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <input type="text" name="salerPhone" lay-verify="required" lay-reqtext="用户联系方式不能为空？
+                " placeholder="" id="salerPhone" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-top: 20px">
+            <label class="layui-form-label">商家头像:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <button type="button" class="layui-btn" id="salerBtn">
+                    <i class="layui-icon">&#xe67c;</i>更换头像
+                </button>
+                <div class="layui-upload-list" id="salerBtnDel"
+                    style="height: 100px; width: 100px;border: 1px solid #cccccc;">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商家地址:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <input type="text" name="salerAddress" lay-verify="required" lay-reqtext="用户联系方式不能为空？
+                    " placeholder="" id="salerAddress" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">入驻时间:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <input class="layui-input" id="salerTime" name="salerTime" />
+            </div>
+        </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">使用状态</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <select name="salerIsusing" id='salerIsusing' lay-filter="salerIsusing">
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align: center">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" id="doSave" lay-submit="" lay-filter="demo1">修改</button>
+                <button type="button" class="layui-btn layui-btn-primary">返回</button>
+            </div>
+        </div>
+    </form>
+
+    <style>
+        .imgBox {
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+        }
+    </style>
+    <script src="../../assets/libs/layui/layui.js" charset="utf-8"></script>
+    <script src="../js/util.js" charset="utf-8"></script>
+    <script>
+        layui.config({
+            base: '/module/'
+        }).use(['jquery', 'layer', 'table', 'form', 'config', 'laydate', 'upload'], function () {
+            var $ = layui.jquery;
+            var layer = layui.layer;
+            var table = layui.table;
+            var form = layui.form;
+            var config = layui.config;
+            var laydate = layui.laydate;
+            var upload = layui.upload;
+            var files = null;
+            //页面加载时商家使用状态select下拉框的内容
+            $.ajax({
+                url: config.base_server + 'GetSalerIsusing',
+                dataType: 'json',
+                type: 'get',
+                async: false,
+                success: function (data) {
+                    data = data.data;
+                    $.each(data, function (index, item) {
+                        $('#salerIsusing').append
+                            (new Option(item.salerIsusing));// 下拉菜单里添加元素
+                    });
+                    form.render("select");
+
+                }
+
+            })
+
+            var req = GetRequest();
+            var no = req['editNo'];//获取请求的url参数editNo的值
+
+            upload.render({
+                elem: '#salerBtn'
+                , auto: false
+                , choose: (obj) => {
+                    obj.preview((index, file, result) => {
+                        let imgUrl = result;
+                        files = file;
+                        $('#salerBtnDel').html('<div class="imgBox " ><img src="' + result + '" alt="' + file.name + '" class="layui-upload-img" width="100" height="100"><a class="remove_' + index + ' imgitem  layui-btn layui-btn-xs layui-btn-danger demo-delete">取消</a></div>')
+                        $('.remove_' + index).bind('click', function () {
+                            files = null;
+                            $(this).parent().remove();
+                        })
+                    });
+                }
+            });
+
+            //获取当前编辑的数据
+            $.ajax({
+                url: config.base_server + 'GetSalerById?editNo=' + no,
+                dataType: 'json',
+                type: 'get',
+                success: function (data) {
+                    data = data.data;
+                    if (!data.length) {
+                        return;
+                    }
+                    $('#salerId').val(data[0].salerId);
+                    $('#salerName').val(data[0].salerName);
+                    $('#salerPhone').val(data[0].salerPhone);
+                    $('#salerAddress').val(data[0].salerAddress);
+                    $('#salerBtnDel').html('<div class="imgBox " ><img src="' + data[0].salerUrl + '" alt="" class="layui-upload-img" width="100" height="100"></div>')
+                    laydate.render({
+                        elem: '#salerTime',
+                        value: data[0].salerTime
+                        , type: 'datetime'
+                        , trigger: 'click'
+                    });
+                    var select = 'dd[lay-value=' + data[0].salerIsusing + ']';
+                    $('#salerIsusing').siblings("div.layui-form-select").find('dl').find(select).click();
+                }
+
+            })
+
+            //保存用户数据
+            form.on('submit(demo1)', function () {
+                var data = form.val('example');
+                var salerId = data.salerId;
+                var salerName = data.salerName;
+                var salerPhone = data.salerPhone;
+                var salerAddress = data.salerAddress;
+                var salerTime = data.salerTime;
+                var salerIsusing = data.salerIsusing;
+                var formData = new FormData();
+                formData.append('salerId', salerId);
+                formData.append('salerName', salerName);
+                formData.append('salerPhone', salerPhone);
+                formData.append('salerAddress', salerAddress);
+                formData.append('salerIsusing', salerIsusing);
+                formData.append('salerTime', salerTime);
+                if (files) {
+                    formData.append('salerUrl', files)
+                }
+                layer.load(2);
+                $.ajax({
+                    type: "POST",
+                    url: config.base_server + "UpdateSalerById",
+                    data: formData,
+                    async: false,
+                    processData: false,   //  告诉jquery不要处理发送的数据
+                    contentType: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code == 1) {
+                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引 
+                            parent.layer.close(index); //再执行关闭 
+                            $('#')
+                        }
+                    }
+
+                });
+
+
+                // 自定义验证
+                form.verify({
+                    title: function (value) {
+                        if (value.length < 5) {
+                            return '标题至少得5个字符啊';
+                        }
+                    }
+                    , pass: [
+                        /^[\S]{6,12}$/
+                        , '密码必须6到12位，且不能出现空格'
+                    ]
+                    , partition: function () {
+
+                        var min = $("input[name='price_min']").val();
+                        var max = $("input[name='price_max']").val();
+                        if (min > max)
+                            return '输入的范围有误'
+                        if (min > 100 || min < 0 || max > 100 || max < 0)
+                            return '输入的范围必须是0--100间'
+                    }
+
+                });
+            });
+        })
+    </script>
+
+
+</body>

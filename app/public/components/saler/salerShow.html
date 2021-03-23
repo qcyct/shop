@@ -1,0 +1,183 @@
+<div style="position: relative;">
+    <div class="myChartSalesVolume">
+        <div style="padding-bottom: 50px;" class="HotNum">
+            <h2>周销量冠军商品</h2>
+            <p class="HotNum_p" id="HotNum_p">
+                无
+            </p>
+        </div>
+        <h3>本周销售金额和订单数的曲线图</h3>
+        <div id="SalesVolume" style="width: 1000px;height:600px;"></div>
+        <h3>本周热销商品入围数</h3>
+        <div id="HotCommodities" style="width: 1000px;height:600px;"></div>
+
+    </div>
+</div>
+<style>
+    .myChartSalesVolume {
+        background-color: #fff;
+    }
+
+    .HotNum {
+        position: absolute;
+        right: 0px;
+        top: 40px;
+        text-align: center;
+        width: 700px;
+    }
+
+    .HotNum_p {
+        margin-top: 70px;
+        font-size: 30px;
+    }
+</style>
+<script type="text/javascript">
+    layui.use(['jquery', 'layer', 'table', 'form', 'config', 'admin'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var table = layui.table;
+        var form = layui.form;
+        var config = layui.config;
+        var admin = layui.admin;
+        // 基于准备好的dom，初始化echarts实例
+        var myChartSalesVolume = echarts.init(document.getElementById('SalesVolume'));
+        var myHotCommodities = echarts.init(document.getElementById('HotCommodities'));
+        myChartSalesVolume.showLoading();
+        // 指定图表的配置项和数据
+        myChartSalesVolume.setOption({
+            xAxis: {
+                type: 'category',
+                data: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    dataView: { readOnly: false },
+                    magicType: { type: ['line', 'bar'] },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            series: [{
+                name: "销量",
+                data: [0, 0, 0, 0, 0, 0, 0],
+                type: 'line',
+                markPoint: {
+                    data: [
+                        { type: 'max', name: '最大值' },
+                        { type: 'min', name: '最小值' }
+                    ]
+                },
+                markLine: {
+                    data: [
+                        { type: 'average', name: '平均值' }
+                    ]
+                }
+            },
+            {
+                data: [0, 0, 0, 0, 0, 0, 0],
+                type: 'line',
+                markLine: {
+                    data: [
+                        { type: 'average', name: '平均值' }
+                    ]
+                }
+            }]
+        })
+
+        myHotCommodities.setOption({
+            xAxis: {
+                type: 'category',
+                data: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                name: "销量",
+                data: [0, 0, 0, 0, 0, 0, 0],
+                type: 'line',
+                markPoint: {
+                    data: [
+                        { type: 'max', name: '最大值' },
+                        { type: 'min', name: '最小值' }
+                    ]
+                },
+                markLine: {
+                    data: [
+                        { type: 'average', name: '平均值' }
+                    ]
+                }
+            }]
+        })
+
+        admin.myAjax({
+            url: "getOrdersBysalerIdCharsOne",
+            success: function (res) {
+                myChartSalesVolume.hideLoading();
+                if (res.code) {
+                    let { MonarrList, NumarrList } = res;
+                    myChartSalesVolume.setOption({
+                        series: [
+                            {
+                                name: "销量",
+                                data: MonarrList
+                            },
+                            {
+                                name: "订单数",
+                                data: NumarrList
+                            }
+                        ],
+                        legend: {
+                            data: ['销量', '订单数']
+                        },
+                    })
+                }
+
+            }
+        })
+
+        admin.myAjax({
+            url: "getOrdersBysalerIdCharsTwo",
+            success: function (res) {
+                if (res.code) {
+                    let { CharsTwoData } = res;
+                    myHotCommodities.setOption({
+                        series: [
+                            {
+                                name: "热售数目",
+                                data: CharsTwoData
+                            }
+                        ],
+                        legend: {
+                            data: ['热售数目']
+                        },
+                    })
+                }
+
+            }
+        })
+        admin.myAjax({
+            url: "getOrdersBysalerIdchampion",
+            success: function (res) {
+                if (res.code) {
+                    let { arrListByDay } = res;
+                    try {
+                        if (arrListByDay.goodsName) {
+                            $('#HotNum_p').text(arrListByDay.goodsName)
+                        }
+                    } catch (error) {
+
+                    }
+                }
+
+            }
+        })
+    })
+</script>

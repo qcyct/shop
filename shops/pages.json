@@ -1,0 +1,153 @@
+{
+	"pages": [{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/classify/classify",
+			"style": {
+				"navigationBarTitleText": "分类"
+			}
+		},
+		{
+			"path": "pages/cart/cart",
+			"style": {
+				"navigationBarTitleText": "购物车"
+			}
+		},
+		{
+			"path": "pages/member/member",
+			"style": {
+				"navigationBarTitleText": "个人主页",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light",
+				"navigationBarBackgroundColor": "#f06c7a",
+				"backgroundColorTop": "#f06c7a",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/order/order",
+			"style": {
+				"navigationBarTitleText": "我的订单"
+			}
+		},
+		{
+			"path": "pages/productList/productList",
+			"style": {
+				"navigationBarTitleText": "商品分类",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/productDetail/productDetail",
+			"style": {
+				"navigationBarTitleText": "商品详情",
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/flashshop/flashshop",
+			"style": {
+				"navigationBarTitleText": "限时秒杀"
+			}
+		}, {
+			"path": "pages/hotSale/hotSale",
+			"style": {
+				"navigationBarTitleText": "今日热销"
+			}
+		}, {
+			"path": "pages/CouponList/CouponList",
+			"style": {
+				"navigationBarTitleText": "优惠卷"
+			}
+		},
+		{
+			"path": "pages/deposit/deposit",
+			"style": {
+				"navigationBarTitleText": "充值"
+			}
+		},
+		{
+			"path": "pages/success/success",
+			"style": {
+				"navigationBarTitleText": "充值成功"
+			}
+		}, {
+			"path": "pages/coupon/coupon",
+			"style": {
+				"navigationBarTitleText": "优惠卷"
+			}
+		}, {
+			"path": "pages/confirmation/confirmation",
+			"style": {
+				"navigationBarTitleText": "订单"
+			}
+		}, {
+			"path": "pages/address/address",
+			"style": {
+				"navigationBarTitleText": "收货地址"
+			}
+		}, {
+			"path": "pages/edit/edit",
+			"style": {
+				"navigationBarTitleText": "地址操作"
+			}
+		},
+		{
+			"path": "pages/payment/payment",
+			"style": {
+				"navigationBarTitleText": "提交订单"
+			}
+
+		}
+	],
+	"tabBar": {
+		"color": "#999",
+		"selectedColor": "#333",
+		"backgroundColor": "#fff",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"text": "首页",
+				"iconPath": "static/image/index_gray.png",
+				"selectedIconPath": "static/image/index_black.png"
+			},
+			{
+				"pagePath": "pages/classify/classify",
+				"text": "分类",
+				"iconPath": "static/image/classify_gray.png",
+				"selectedIconPath": "static/image/classify_black.png"
+			},
+			{
+				"pagePath": "pages/cart/cart",
+				"text": "购物车",
+				"iconPath": "static/image/cart_gray.png",
+				"selectedIconPath": "static/image/cart_black.png"
+			},
+			{
+				"pagePath": "pages/member/member",
+				"text": "我的",
+				"iconPath": "static/image/user_gray.png",
+				"selectedIconPath": "static/image/user_black.png"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "新模板",
+		"navigationBarBackgroundColor": "#fff",
+		"backgroundColor": "#F8F8F8"
+	},
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			{
+				"name": "", //模式名称
+				"path": "", //启动页面，必选
+				"query": "" //启动参数，在页面的onLoad函数里面得到
+			}
+		]
+	}
+}

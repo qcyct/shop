@@ -1,0 +1,29 @@
+
+.labelNav {
+	height: 76rpx;
+	padding: 3rpx;
+	font-size: 22rpx;
+	color: #8c8c8c;
+	position: fixed;
+	left: 0;
+	width: 100%;
+	background-color: #f5f5f5;
+	z-index: 5;
+	top: 0;
+}
+.cartdHead .labelNav {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-justify-content:space-around;
+	        justify-content:space-around;
+}
+.cartdHead{
+	background-color: #FFFFFF;
+}
+

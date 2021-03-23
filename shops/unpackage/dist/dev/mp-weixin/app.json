@@ -1,0 +1,76 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/classify/classify",
+    "pages/cart/cart",
+    "pages/member/member",
+    "pages/order/order",
+    "pages/productList/productList",
+    "pages/productDetail/productDetail",
+    "pages/flashshop/flashshop",
+    "pages/hotSale/hotSale",
+    "pages/CouponList/CouponList",
+    "pages/deposit/deposit",
+    "pages/success/success",
+    "pages/coupon/coupon",
+    "pages/confirmation/confirmation",
+    "pages/address/address",
+    "pages/edit/edit",
+    "pages/payment/payment"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "新模板",
+    "navigationBarBackgroundColor": "#fff",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#333",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/image/index_gray.png",
+        "selectedIconPath": "static/image/index_black.png"
+      },
+      {
+        "pagePath": "pages/classify/classify",
+        "text": "分类",
+        "iconPath": "static/image/classify_gray.png",
+        "selectedIconPath": "static/image/classify_black.png"
+      },
+      {
+        "pagePath": "pages/cart/cart",
+        "text": "购物车",
+        "iconPath": "static/image/cart_gray.png",
+        "selectedIconPath": "static/image/cart_black.png"
+      },
+      {
+        "pagePath": "pages/member/member",
+        "text": "我的",
+        "iconPath": "static/image/user_gray.png",
+        "selectedIconPath": "static/image/user_black.png"
+      }
+    ]
+  },
+  "usingComponents": {
+    "tui-icon": "/components/icon/icon",
+    "tui-list-cell": "/components/list-cell/list-cell",
+    "tui-tabs": "/components/tui-tabs/tui-tabs",
+    "tui-button": "/components/button/button",
+    "tui-loadmore": "/components/loadmore/loadmore",
+    "tui-sticky": "/components/sticky/sticky",
+    "tui-drawer": "/components/drawer/drawer",
+    "tui-nomore": "/components/nomore/nomore",
+    "tui-tag": "/components/tag/tag",
+    "tui-badge": "/components/badge/badge",
+    "tui-top-dropdown": "/components/top-dropdown/top-dropdown",
+    "tui-bottom-popup": "/components/bottom-popup/bottom-popup",
+    "tui-numberbox": "/components/numberbox/numberbox",
+    "tui-countdown": "/components/countdown/countdown"
+  },
+  "sitemapLocation": "sitemap61.json"
+}

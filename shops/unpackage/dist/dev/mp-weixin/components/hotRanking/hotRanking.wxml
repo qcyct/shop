@@ -1,0 +1,1 @@
+<view class="hotRanking"><view class="react-view _div"><view class="react-view-content _div"><view class="{{['_div','react-view-img-'+index,'react-view-img']}}"></view></view><label class="react-view-Num _span">{{index}}</label></view></view>

@@ -1,0 +1,7 @@
+
+.cpr{
+	text-align: center;
+	font-size: 24rpx;
+	margin: 20rpx 0;
+}
+

@@ -1,0 +1,1 @@
+<view class="hotSale"><view class="header"><img-slide vue-id="1" imgSlideData="{{imgSlideData}}" bind:__l="__l"></img-slide></view><hot-item vue-id="2" hotItemList="{{hotItemList}}" bind:__l="__l"></hot-item></view>

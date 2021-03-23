@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../assets/libs/layui/css/layui.css" media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+
+<body>
+
+
+    <!-- 列表头高级查询 -->
+
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>高级查询</legend>
+    </fieldset>
+
+
+    <form class="layui-form" action="">
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">商品编号:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="goodsId" id="goodsId" autocomplete="off" class="layui-input"
+                        placeholder="请输入">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">商品名称:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="goodsName" id="goodsName" autocomplete="off" class="layui-input"
+                        placeholder="请输入">
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="layui-form-item" style="text-align: center">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" id="goodsDoSearch" lay-filter="demo1">查询</button>
+                <button type="reset" class="layui-btn layui-btn-primary" id="doReset">重置</button>
+            </div>
+        </div>
+    </form>
+
+
+
+
+    <div class="layui-btn-group demoTable">
+        <button class="layui-btn" data-type="getCheckData" id="goodsAlldata">获取选中行数据</button>
+        <button class="layui-btn" data-type="getCheckLength" id="goodsAllNum">获取选中数目</button>
+        <button class="layui-btn" data-type="refresh" id="goodsAllRefresh">刷新</button>
+        <button class="layui-btn" data-type="addUser" id="goodsAllAdd">添加</button>
+    </div>
+
+
+
+
+
+    <table class="layui-hide" id="test7" lay-filter="test7"></table>
+
+    <!-- 按钮 -->
+    <div style="display: none" id="goodsbarDemo" type="text/html">
+        <a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-sm" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>
+    </div>
+
+
+    <script>
+
+        layui.use(['jquery', 'layer', 'table', 'form', 'config'], function () {
+            var $ = layui.jquery;
+            var layer = layui.layer;
+            var table = layui.table;
+            var form = layui.form;
+            var config = layui.config;
+            // 表格渲染
+            table.render({
+                elem: '#test7'
+                , url: config.base_server + 'GetGoodsList'
+                , id: "goodsdemo"
+                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                , cols: [[
+                    { type: 'checkbox', fixed: 'left' }
+                    , { field: 'goodsId', width: 80, title: '商品编号', sort: true, width: '8%', minWidth: 100 }
+                    , { field: 'goodsName', width: 80, title: '商品名称', width: '10%', minWidth: 100 }
+                    , { field: 'goodsSale', width: 80, title: '商品现价', width: '8%', minWidth: 100 }
+                    , { field: 'goodsFactory', width: 80, title: '商品原价', width: '8%', minWidth: 100 }
+                    , { field: 'goodsPayNum', width: 80, title: '商品已售', width: '8%', minWidth: 100 }
+                    , { field: 'goodsNum', width: 80, title: '商品数目', width: '8%', minWidth: 100 }
+                    , {
+                        field: 'goodsImg', width: 80, title: '商品图片', width: '15%', minWidth: 100,
+                        templet: function (d) { return '<div ><img src=' + d.goodsImg + ' style="width: 50px;"></div>' }
+                    }
+                    , { field: 'salerId', width: 80, title: '商家编号', width: '8%', minWidth: 100 }
+                    , { field: 'goodsType', width: 80, title: '商品类型', width: '10%', minWidth: 100, }
+                    , { title: '操作', toolbar: '#goodsbarDemo' }
+
+
+                ]]
+                , page: true //开启分页
+                , skin: 'row' //行边框风格
+                , even: true //开启隔行背景
+                , size: 'lg' //小尺寸的表格
+            });
+            //行内按钮事件的监听
+            table.on('tool(test7)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'detail') {
+                    var editId = data.goodsId;
+                    var fu = layer.open({
+                        type: 2,
+                        title: "查看" + editId + "号商品",
+                        area: ['600px', '800px'],
+                        fix: false,
+                        content: 'components/system/goodsDetailTable.html?editNo=' + editId,
+                        maxmin: true,
+                        end: function () {
+                            table.reload('goodsdemo', {
+                                url: config.base_server + 'GetGoodsList' //数据接口  
+                                , where: {} //设定异步数据接口的额外参数        
+                            });
+                        }
+                    });
+
+                } else if (obj.event === 'del') {
+                    var editId = data.goodsId;
+
+                    var fu = layer.open({
+                        type: 2,
+                        title: "删除" + editId + "号商品",
+                        area: ['400px', '250px'],
+                        fix: false,
+                        content: 'components/system/goodsDeleteTable.html?editNo=' + editId,
+
+                        maxmin: true,
+                        end: function () {
+
+                            table.reload('goodsdemo', {
+                                url: config.base_server + 'GetGoodsList' //数据接口  
+                                , where: {} //设定异步数据接口的额外参数        
+                            });
+                        }
+                    });
+
+
+
+                } else if (obj.event === 'edit') {
+
+                    var editId = data.goodsId;
+
+                    var fu = layer.open({
+                        type: 2,
+                        title: "编辑测试" + editId + "号商品",
+                        area: ['1000px', '800px'],
+                        fix: false,
+                        content: 'components/system/goodsEditTable.html?editNo=' + editId,
+
+                        maxmin: true,
+                        end: function () {
+
+                            table.reload('goodsdemo', {
+                                url: config.base_server + 'GetGoodsList' //数据接口  
+                                , where: {} //设定异步数据接口的额外参数        
+                            });
+                        }
+                    });
+
+                }
+            });
+
+            $('#goodsAlldata').on('click', function () {
+                var checkStatus = table.checkStatus('goodsdemo')
+                    , data = checkStatus.data;
+                layer.alert(data.map(item => {
+                    return item.goodsName;
+                }).join(","));
+
+            });
+            $('#goodsAllNum').on('click', function () {
+
+                var checkStatus = table.checkStatus('goodsdemo')
+                    , data = checkStatus.data;
+                var datas = JSON.stringify(data)
+                var ids = ''
+                for (var i = 0; i < datas.length; i++) {
+                    ids = ids + datas[i].UserNo
+                }
+                layer.msg('选中了：' + data.length + ' 个');
+
+            });
+
+            $('#goodsAllRefresh').on('click', function () {
+                location.reload();
+            });
+
+            //添加按钮 
+            $('#goodsAllAdd').on('click', function () {
+
+                var fu = layer.open({
+                    type: 2,
+                    title: '添加测试',
+                    area: ['1000px', '800px'],
+                    fix: false,
+                    content: 'components/system/goodsAddTable.html',
+                    maxmin: true,
+                    end: function () {
+                        table.reload('goodsdemo', {
+                            url: config.base_server + 'GetGoodsList' //数据接口 
+
+                            , where: {} //设定异步数据接口的额外参数        
+                        });
+
+                    }
+
+                });
+
+                // layer.full(fu);
+            });
+
+            $('#btn5').on('click', function () {
+                location.reload();
+            });
+
+            //  查询按钮
+            $('#goodsDoSearch').on('click', function () {
+                var goodsId = $("input[name='goodsId']").val();
+                var goodsName = $("input[name='goodsName']").val();
+                table.reload('goodsdemo', {
+                    url: config.base_server + 'GetGoodsList' //数据接口
+                    , where: { goodsId: goodsId, goodsName: goodsName }
+                });
+
+
+            });
+
+            //重置：待解决刷新问题 
+            $('#doReset').on('click', function () {
+                location.reload();
+            });
+
+
+
+
+
+
+        });
+
+
+    </script>
+
+</body>
+
+</html>

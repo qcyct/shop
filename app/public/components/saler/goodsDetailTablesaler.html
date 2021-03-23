@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>查看数据</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../assets/libs/layui/css/layui.css" media="all">
+</head>
+
+<body>
+
+    <form class="layui-form" lay-filter="example">
+
+        <div class="layui-form-item" style="margin-top: 20px">
+            <label class="layui-form-label">商品编号:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <input type="text" name="goodsId" disabled="true" autocomplete="off" placeholder="" id="goodsId"
+                    class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item" style="margin-top: 20px">
+            <label class="layui-form-label">商品名称:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <input type="text" name="goodsName" lay-verify="title" autocomplete="off" placeholder="" disabled="true"
+                    id="goodsName" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-top: 20px">
+            <label class="layui-form-label">售卖数目:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <input type="text" name="goodsPayNum" lay-verify="title" autocomplete="off" placeholder=""
+                    disabled="true" id="goodsPayNum" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-top: 20px">
+            <label class="layui-form-label">商品数目:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <input type="text" name="goodsNum" lay-verify="title" autocomplete="off" placeholder="" disabled="true"
+                    id="goodsNum" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品现价:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <input type="text" name="goodsSale" lay-verify="required" placeholder="" disabled=" true" id="goodsSale"
+                    autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品原价:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <input type="text" name="goodsFactory" lay-verify="required" placeholder="" disabled=" true"
+                    id="goodsFactory" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品图片:</label>
+            <div class="layui-input-block" style="margin-right: 20px" id="goodImgList">
+
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品码数:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <input type="text" name="goodsNumber" lay-verify="required" placeholder="" disabled=" true"
+                    id="goodsNumber" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商家编号:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <input type="text" name="salerId" lay-verify="required" placeholder="" disabled=" true" id="salerId"
+                    autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品类型:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <input type="text" name="goodsType" lay-verify="required" placeholder="" disabled=" true" id="goodsType"
+                    autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">加入时间:</label>
+            <div class="layui-input-block" style="margin-right: 20px">
+                <input type="text" name="goodsTime" lay-verify="required" placeholder="" disabled=" true" id="goodsTime"
+                    autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+    </form>
+
+    <style>
+        #goodImgList img {
+            margin: 5px;
+        }
+    </style>
+    <script src="../../assets/libs/layui/layui.js" charset="utf-8"></script>
+    <script src="../js/util.js" charset="utf-8"></script>
+    <script>
+
+
+
+        layui.config({
+            base: '/module/'
+        }).use(['jquery', 'layer', 'table', 'form', 'config'], function () {
+            var $ = layui.jquery;
+            var layer = layui.layer;
+            var table = layui.table;
+            var form = layui.form;
+            var config = layui.config;
+            var req = GetRequest();
+
+            var no = req['editNo'];//获取请求的url参数editNo的值
+            //获取当前编辑的数据
+            $.ajax({
+                url: config.base_server_saler + 'GetGoodsById?editNo=' + no,
+                dataType: 'json',
+                type: 'get',
+                success: function (data) {
+                    data = data.data;
+                    console.log(data)
+                    $('#goodsId').val(data[0].goodsId);
+                    $('#goodsName').val(data[0].goodsName);
+                    $('#goodsPayNum').val(data[0].goodsPayNum);
+                    $('#goodsNum').val(data[0].goodsNum);
+                    $('#goodsSale').val(data[0].goodsSale);
+                    $('#goodsNumber').val(data[0].goodsNumber);
+                    $('#goodsFactory').val(data[0].goodsFactory);
+                    (data[0].goodImgList).forEach(item => {
+                        $('#goodImgList').append('<img  src="' + item + '" alt="" srcset="" disabled="true" name="goodsImg" id="goodsImg" width="100" height="100" />');
+                    })
+                    $('#salerId').val(data[0].salerId);
+                    $('#goodsType').val(data[0].goodsType);
+                    $('#goodsTime').val(data[0].goodsTime)
+                }
+
+
+            })
+
+
+
+        });
+    </script>
+
+
+</body>

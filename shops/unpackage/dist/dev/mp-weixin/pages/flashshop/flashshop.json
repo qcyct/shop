@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "限时秒杀",
+  "usingComponents": {
+    "flash-head-text": "/components/flashHeadText/flashHeadText",
+    "flash-item": "/components/flashItem/flashItem",
+    "img-slide": "/components/imgSlide/imgSlide"
+  }
+}

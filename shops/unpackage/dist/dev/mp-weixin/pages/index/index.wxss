@@ -1,0 +1,9 @@
+
+.cell-item {
+	border: none;
+}
+.cell-ft-text {
+	font-size: 22rpx;
+	color: #999;
+}
+

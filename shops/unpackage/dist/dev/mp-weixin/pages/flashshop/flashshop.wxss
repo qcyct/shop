@@ -1,0 +1,165 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.shortTab {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+  height: 90rpx;
+  position: relative;
+}
+.shortTab .navTabItem {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+            flex: 1;
+}
+.flashshop {
+  position: relative;
+  width: 100%;
+}
+.flashshop .header {
+    width: 100%;
+}
+.flashshop .header image {
+      width: 100%;
+      height: 100%;
+}
+.van-tab {
+  border-left: 1px solid #e3b06e;
+}
+.van-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.van-tab {
+  position: relative;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+  box-sizing: border-box;
+  min-width: 0;
+  color: #7d7e80;
+  font-size: 14px;
+  line-height: 44px;
+  text-align: center;
+  cursor: pointer;
+}
+/*tabbar start*/
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+.timeItem {
+  font-size: 22rpx;
+  color: #282828;
+  width: 100%;
+  text-align: center;
+  padding: 11rpx 0;
+  height: 96rpx;
+  background-color: #efc58f;
+}
+.timeItem .time {
+    font-size: 32rpx;
+    font-weight: 700;
+    height: 37rpx;
+    line-height: 37rpx;
+}
+.timeItem .state {
+    height: 37rpx;
+    line-height: 37rpx;
+}
+.tab-view::before {
+  content: '';
+  position: absolute;
+  border-bottom: 1rpx solid #eaeef1;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+.tab-view {
+  width: 100%;
+  height: 108rpx;
+  box-sizing: border-box;
+  z-index: 99;
+  white-space: nowrap;
+  border-bottom: transparent;
+}
+.tab-bar-item {
+  width: 27vw;
+  padding: 0;
+  min-width: 80rpx;
+  line-height: 100rpx;
+  display: inline-block;
+  text-align: center;
+  box-sizing: border-box;
+}
+.tab-bar-title {
+  height: 100rpx;
+  line-height: 100rpx;
+  font-size: 32rpx;
+  color: #999;
+  font-weight: 400;
+}
+.active .van-tab {
+  color: #323233;
+  font-weight: 500;
+}
+.active .van-tab .timeItem {
+    background-color: #e93323;
+    color: #fff;
+}
+.active .van-tab .timeItem::before {
+      content: "";
+      width: 0;
+      height: 0;
+      border-left: 8rpx solid transparent;
+      border-right: 8rpx solid transparent;
+      border-top: 10rpx solid #e93323;
+      position: absolute;
+      bottom: -9rpx;
+      z-index: 99;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+              transform: translateX(-50%);
+}
+.active .tab-bar-title {
+  color: #5677fc !important;
+  font-size: 36rpx;
+  font-weight: bold;
+}
+/*tabbar end*/
+.scoll-y {
+  max-height: 90vh;
+}
+.tab-content {
+  margin-top: 10rpx;
+}
+

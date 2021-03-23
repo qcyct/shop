@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "今日热销",
+  "usingComponents": {
+    "hot-item": "/components/hotItem/hotItem",
+    "img-slide": "/components/imgSlide/imgSlide"
+  }
+}

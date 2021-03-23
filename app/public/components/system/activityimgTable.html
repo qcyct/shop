@@ -1,0 +1,162 @@
+<div>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>活动轮播图</legend>
+    </fieldset>
+    <div class="layui-btn-group demoTable">
+        <button class="layui-btn" data-type="getCheckData" id="activityimgAlldata">获取选中行数据</button>
+        <button class="layui-btn" data-type="getCheckLength" id="activityimgAllNum">获取选中数目</button>
+        <button class="layui-btn" data-type="refresh" id="activityimgAllRefresh">刷新</button>
+        <button class="layui-btn" data-type="addUser" id="activityimgAllAdd">添加</button>
+    </div>
+    <table class="layui-hide" id="ActivityimgTable" lay-filter="ActivityimgTable"></table>
+    <div style="display: none" id="activityimgbarDemo" type="text/html">
+        <a class="layui-btn layui-btn-sm" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>
+    </div>
+</div>
+<script>
+    layui.use(['table', 'util', 'config', 'tree', 'config'], function () {
+        var table = layui.table;
+        var config = layui.config;
+        var util = layui.util;
+        var tree = layui.tree;
+        var config = layui.config;
+        table.render({
+            elem: '#ActivityimgTable',
+            id: "activityimg"
+            , url: config.base_server + 'GetactivityimgList'
+            , cellMinWidth: 80
+            , cols: [[
+                { type: 'checkbox' }
+                , { field: 'activityimgId', width: '15%', title: '编号' }
+                , {
+                    field: 'activityimgurl', width: '20%', title: '图片',
+                    templet: function (d) {
+                        if (d.activityimgurl) {
+                            return '<div ><img src=' + d.activityimgurl + ' style="width: 50px;" alt=""></div>'
+                        } else {
+                            return '<div ><img  src="" style="width: 50px;height:50px" alt=""></div>'
+                        }
+                    }
+                }
+                , {
+                    field: 'activityimgtype', width: '15%', title: '位置', templet: function (d) {
+                        switch (Number(d.activityimgtype)) {
+                            case 1:
+                                return '<div>主页轮播图</div>'
+                                break;
+                            case 2:
+                                return '<div>今日秒杀轮播图</div>'
+                                break;
+                            case 3:
+                                return '<div>今日热销轮播图</div>'
+                                break;
+                            default:
+                                return '<div>其他</div>'
+                                break;
+                        }
+                    }
+                }
+                , { field: 'activityimgpageurl', width: '20%', title: '跳转' }
+                , { title: '操作', toolbar: '#activityimgbarDemo' }
+            ]]
+            , page: true //开启分页
+            , skin: 'row' //行边框风格
+            , even: true //开启隔行背景
+            , size: 'lg' //小尺寸的表格
+        });
+
+        table.on('tool(ActivityimgTable)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                var editId = data.activityimgId;
+
+                var fu = layer.open({
+                    type: 2,
+                    title: "删除" + editId + "号用户",
+                    area: ['400px', '250px'],
+                    fix: false,
+                    content: 'components/system/activityimgDeleteTable.html?editNo=' + editId,
+
+                    maxmin: true,
+                    end: function () {
+
+                        table.reload('activityimg', {
+                            url: config.base_server + 'GetactivityimgList' //数据接口  
+                            , where: {} //设定异步数据接口的额外参数        
+                        });
+                    }
+                });
+
+
+
+            } else if (obj.event === 'edit') {
+                var editId = data.activityimgId;
+                var fu = layer.open({
+                    type: 2,
+                    title: "编辑测试" + editId + "号用户",
+                    area: ['600px', '450px'],
+                    fix: false,
+                    content: 'components/system/activityimgEditTable.html?editNo=' + editId,
+
+                    maxmin: true,
+                    end: function () {
+
+                        table.reload('activityimg', {
+                            url: config.base_server + 'GetactivityimgList' //数据接口  
+                            , where: {} //设定异步数据接口的额外参数        
+                        });
+                    }
+                });
+
+            }
+        });
+
+        $('#activityimgAlldata').on('click', function () {
+            var checkStatus = table.checkStatus('activityimg')
+                , data = checkStatus.data;
+            layer.alert(data.map(item => {
+                return item.activityimgId;
+            }).join(","));
+        });
+        $('#activityimgAllNum').on('click', function () {
+
+            var checkStatus = table.checkStatus('activityimg')
+                , data = checkStatus.data;
+            var datas = JSON.stringify(data)
+            var ids = ''
+            for (var i = 0; i < datas.length; i++) {
+                ids = ids + datas[i].UserNo
+            }
+            layer.msg('选中了：' + data.length + ' 个');
+
+        });
+
+        $('#activityimgAllRefresh').on('click', function () {
+            location.reload();
+        });
+
+        //添加按钮 
+        $('#activityimgAllAdd').on('click', function () {
+            var fu = layer.open({
+                type: 2,
+                title: '添加测试',
+                area: ['700px', '500px'],
+                fix: false,
+                content: 'components/system/activityimgAddable.html',
+                maxmin: true,
+                end: function () {
+                    table.reload('activityimg', {
+                        url: config.base_server + 'GetactivityimgList' //数据接口
+                        , where: {} //设定异步数据接口的额外参数
+                    });
+
+                }
+
+            });
+
+            // layer.full(fu);
+        });
+    });
+
+</script>

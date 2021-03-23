@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "优惠卷",
+  "usingComponents": {
+    "coupon-itme": "/components/CouponItme/CouponItme",
+    "coupon-itme-end": "/components/CouponItmeEnd/CouponItmeEnd"
+  }
+}
